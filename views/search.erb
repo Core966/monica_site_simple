@@ -1,0 +1,12 @@
+<h2>A keresés eredményei:</h2>
+<% @posts.each do |post| %>
+  <li>
+    <h2><a href="/blog/<%= post.id %>"><%= post.title %></a></h2>
+    <div class="entrytext">
+    <p><%= post.body %></p>
+    </div>
+  </li>
+<% end %>
+<br/ >
+
+

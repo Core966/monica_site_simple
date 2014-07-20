@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<head>
+	<title><%= @title %></title>
+	<link rel="stylesheet" type="text/CSS" href="/style.css" />
+	<link rel="stylesheet" type="text/CSS" href="/forms-nr-min.css" />
+	<link rel="stylesheet" type="text/CSS" href="/buttons-min.css" />
+	
+</head>
+<body>
+<div id="page" class="singlecol">
+	<div id="header">
+		<div id="headerimg">
+		<h1>
+		<a href="/"> Tóth Mónika Weboldala </a>
+		</h1>
+		<div class="description"> Gyermek szpichológus és tanácsadó </div>
+		</div>
+	</div>
+	<div id="navigation">
+		<ul>
+		<li>
+		<a href="/">Főoldal</a>
+		</li>
+		<li>
+		<a href="/blog">Blog</a>
+		</li>
+		<li>
+		<a href="/about">Rólam</a>
+		</li>
+		<li>
+		<a href="/misc">Egyéb</a>
+		</li>
+		<% if env['warden'].authenticated? %>
+		<li>
+		<a href="/users">felhasználók kezelése</a>
+		</li>
+		<li>
+		  <a href="/logout">Kijelentkezés</a>
+		</li>
+		<% else %>
+		<li>
+		<a href="/login">Bejelentkezés</a>
+		</li>
+		<% end %>
+		</ul>
+	</div>
+	<div id="content" class="narrowcolumn">
+        <div class="post">
+        <%= yield %>
+	</div>
+		<div id="sidebar">
+			<ul>
+			<li>
+			<form id="searchform" action="/search" method="post">
+			<div>
+			<input name="search[keyword]" type="text" />
+			<input id="searchsubmit" class="pure-button pure-button-primary" type="submit" value="Keresés">
+			</div>
+			</form>
+			</li>
+			<li> </li>
+			<li>
+			<h2>Linkek</h2>
+			<ul style="margin-bottom:15px;">
+				<% @sidebar_links.each do |link| %>
+				  <li>
+				    <a href="<%= link.href %>"><%= link.title %></a>
+				  </li>
+				<% end %>
+			</ul>
+			</li>
+			<li>
+			<h2>Legutóbbi blog bejegyzések</h2>
+			<ul>
+				<% @sidebar_posts.each do |sidebar| %>
+				  <li>
+				    <a href="/blog/<%= sidebar.id %>"><%= sidebar.title %></a>
+				  </li>
+				<% end %>
+			</ul>
+			</li>
+			<li>
+			<h2>Legutóbbi hírek</h2>
+			<ul>
+				<% @sidebar_feeds.each do |sidebar| %>
+				  <li>
+				    <a href="/feed/<%= sidebar.id %>"><%= sidebar.title %></a>
+				  </li>
+				<% end %>
+			</ul>
+			</li>
+			</ul>
+		</div>
+	</div>
+	<div id="footer">
+		<p>
+		<%= "&mdash; &copy; #{Time.now.strftime('%Y')} #{@author} &mdash; Weboldala, az alkalmazás MIT licenc alatt készült. A Kód forrását meg lehet tekinteni az XY oldalon." %>
+		</p>
+	</div>
+</div>
+</body>
+</html>

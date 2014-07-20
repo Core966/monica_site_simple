@@ -1,0 +1,15 @@
+
+<% @feeds.each do |feed| %>
+<div class="single-feed">
+    <h2><a href="/feed/<%= feed.id %>"><%= feed.title %></a></h2><h4><%= feed.created_at.strftime("%Y/%m/%d") %></h4>
+    <div class="entrytext">
+    <p><%= feed.content %></p>
+    </div>
+</div>
+<% end %>
+<br/ >
+<a class="pure-button" href="/feed/new">Új hír bejegyzés</a>
+
+
+
+

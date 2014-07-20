@@ -1,0 +1,16 @@
+
+<h2>Új blog bejegyzés</h2>
+<form action="/blog" class="pure-form pure-form-stacked" method="post">
+  <label for="post_title">Title:</label><br />
+  <input id="post_title" name="post[title]" type="text"/>
+  <br />
+ 
+  <label for="post_body">Body:</label><br />
+  <textarea id="post_body" name="post[body]" rows="5"></textarea>
+  <br />
+  
+  <input type="hidden" name="post[is_deleted]" value="<%= false %>" />
+ 
+  <input type="submit" class="pure-button pure-button-primary" value="Blog bejegyzés létrehozása" />
+</form>
+

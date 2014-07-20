@@ -1,0 +1,16 @@
+
+<h2>Új hír bejegyzés</h2>
+<form action="/feed" class="pure-form pure-form-stacked" method="post">
+  <label for="feed_title">Cím:</label><br />
+  <input id="feed_title" name="feed[title]" type="text"/>
+  <br />
+ 
+  <label for="feed_content">Tartalom:</label><br />
+  <textarea id="feed_content" name="feed[content]" rows="5"></textarea>
+  <br />
+  
+  <input type="hidden" name="feed[is_deleted]" value="<%= false %>" />
+ 
+  <input type="submit" class="pure-button pure-button-primary" value="Hírbejegyzés létrehozása" />
+</form>
+

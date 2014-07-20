@@ -1,0 +1,18 @@
+
+<% @links.each do |link| %>
+<form action="/link/<%= "#{link.id}" %>" class="pure-form pure-form-stacked" method="post">
+	<input type="hidden" name="_method" value="put" />
+    <input id="post_title" name="link[title]" type="text" value="<%= link.title %>" />
+    <div class="entrytext">
+	<select name="link[href]">
+<% @selection.each do |select| %>
+	  <option value="/blog/<%= "#{select.id}" %>"><%= select.title %></option>
+<% end %>
+	</select>
+	<input type="submit" class="pure-button pure-button-primary" value="Új link létrehozása" />
+</form>
+    </div>
+<% end %>
+
+<br/ >
+

@@ -1,0 +1,12 @@
+
+<% @posts.each do |post| %>
+
+    <h2><a href="/blog/<%= post.id %>"><%= post.title %></a></h2>
+    <div class="entrytext">
+    <p><%= post.body %></p>
+    </div>
+
+<% end %>
+<br/ >
+<a class="pure-button" href="/blog/new">Új blog bejegyzés</a>
+

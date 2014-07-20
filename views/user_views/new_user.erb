@@ -1,0 +1,13 @@
+<form action="/users" class="pure-form pure-form-stacked" method="post">
+  <label for="username"> Username:
+  <input id="username" type="text" name="user[username]" />
+  </label><br />
+  <label for="email"> Email:
+  <input id="email" type="text" name="user[email]" />
+  </label><br />
+  <label for="password"> Password:
+  <input id="password" type="password" name="user[password]" />
+  </label>
+  <input type="hidden" name="user[is_deleted]" value="<%= false %>" />
+  <input type="submit" class="pure-button pure-button-primary" value="Create user">
+</form>

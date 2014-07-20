@@ -1,0 +1,12 @@
+
+			<div class="entrytext">
+				<h2><%= @post[0].title %></h2>
+				<p><%= @post[0].body %></p>
+
+				<form action="/blog/<%= "#{params[:id]}" %>" method="post">
+					<input type="hidden" name="_method" value="put" />
+					<input type="hidden" name="post[is_deleted]" value="<%= true %>" />
+					<input type="submit" value="Blog bejegyzés törlése" />
+				</form>
+			</div>
+
