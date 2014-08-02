@@ -172,7 +172,6 @@ a, h2 a:hover, h3 a:hover {
 }
 a:hover {
     color: #64BF30;
-    text-decoration: underline;
 }
 body {
     margin: 0;
@@ -306,7 +305,7 @@ img.alignleft {
     width:65px;
 }
 
-.single-feed { border-bottom: 2px solid #72B2F2; width: 450px; padding-bottom:20px; }
+.single-feed { border-bottom: 2px solid #8EE35D; width: 450px; padding-bottom:20px; }
 
 #searchsubmit {
     width:60px;
