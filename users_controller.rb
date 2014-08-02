@@ -26,7 +26,7 @@
 	if @user.save #In case of failure to save into the database...
 	  redirect "/login"
 	else
-	  erb "user_views/new_user".to_sym #...the application redirects to the same page.
+	  redirect "/users/new".to_sym #...the application redirects to the same page.
 	end
     end
     

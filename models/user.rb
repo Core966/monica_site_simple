@@ -6,11 +6,11 @@ class User < ActiveRecord::Base
   
   validates :password, format: { with: /\A[\p{L}0-9]{8,}\z/ }, on: :create
 
-  validates :password, format: { with: /\A[\p{L}0-9]{8,}\z/ }, :allow_nil => true, on: :update
+  validates :password, format: { with: /\A[\p{L}0-9]{8,}\z/ }, :allow_nil => true, :allow_blank => true, on: :update
 
-  validates :is_deleted, format: { with: /\A[1]{1,}\z/ }, :allow_nil => true, on: :update
+  validates :is_deleted, format: { with: /\Atrue\z/ }, :allow_nil => true, :allow_blank => true, on: :update
 
-  validates :email, presence: true, uniqueness: { case_sensitive: false }, on: :create
+  validates :email, presence: true, uniqueness: { case_sensitive: false }, format: { with: /\A([\w]{1,})@([\w]{1,})\.([\w]{2,})(.[\w]{2,})?\z/ }, on: :create
   
   def encrypt_password
     if password.present?

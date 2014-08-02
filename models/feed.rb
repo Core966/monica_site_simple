@@ -3,5 +3,5 @@ class Feed < ActiveRecord::Base
 
   validates :content, format: { with: /\A[\s\p{L}0-9 \.,!?]{1,}\Z/ }
 
-  validates :is_deleted, format: { with: /\A[1]{1,}\z/ }, on: :update
+  validates :is_deleted, format: { with: /\Atrue\z/ }, on: :update
 end
