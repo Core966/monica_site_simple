@@ -1,6 +1,7 @@
 
 <h2>Új hír bejegyzés</h2>
 <form action="/feed" class="pure-form pure-form-stacked" method="post">
+  <%= Rack::Csrf.csrf_tag(env) %>
   <label for="feed_title">Cím:</label><br />
   <input id="feed_title" name="feed[title]" type="text"/>
   <br />

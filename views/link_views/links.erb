@@ -1,6 +1,7 @@
 
 <% @links.each do |link| %>
 <form action="/link/<%= "#{link.id}" %>" class="pure-form pure-form-stacked" method="post">
+	<%= Rack::Csrf.csrf_tag(env) %>
 	<input type="hidden" name="_method" value="put" />
     <input id="post_title" name="link[title]" type="text" value="<%= link.title %>" />
     <div class="entrytext">

@@ -1,6 +1,7 @@
 
 <h2>Új blog bejegyzés</h2>
 <form action="/blog" class="pure-form pure-form-stacked" method="post">
+  <%= Rack::Csrf.csrf_tag(env) %>
   <label for="post_title">Title:</label><br />
   <input id="post_title" name="post[title]" type="text"/>
   <br />

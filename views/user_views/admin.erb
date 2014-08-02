@@ -15,6 +15,7 @@
 	    <td><%= user.partial_email %></td>
 	    <td>
 	    <form id="new_password" action="/users/<%= "#{user.id}" %>" method="post">
+		<%= Rack::Csrf.csrf_tag(env) %>
 		<input type="hidden" name="_method" value="put" />
 		<input id="password" type="password" name="user[password]" />
 		<input type="submit" value="Jelszó módosítás" />
@@ -22,6 +23,7 @@
 	    </td>
 	    <td>
 	    <form id="delete_user" action="/users/<%= "#{user.id}" %>" method="post">
+		<%= Rack::Csrf.csrf_tag(env) %>
 		<input type="hidden" name="_method" value="put" />
 		<input type="hidden" name="user[is_deleted]" value="<%= true %>" />
 		<input type="submit" value="Felhasználó törlés" />

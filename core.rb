@@ -4,6 +4,7 @@ require 'active_record'
 require 'yaml'
 require 'warden'
 require 'bcrypt'
+require 'rack/csrf'
 
 #Load all models in the model directory:
 
@@ -36,6 +37,7 @@ password: APP_CONFIG['db_password']
 	  set :views, "#{File.dirname(__FILE__)}/views"
 	  enable :sessions
 	  use Rack::Session::Cookie, :expire_after => 60*60*3, secret: "nothingissecretontheinternet"
+	  use Rack::Csrf
 	  use Rack::MethodOverride
 	end
 	

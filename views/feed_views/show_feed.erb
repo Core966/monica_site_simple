@@ -4,6 +4,7 @@
 				<p><%= @feed[0].content %></p>
 
 				<form action="/feed/<%= "#{params[:id]}" %>" method="post">
+					<%= Rack::Csrf.csrf_tag(env) %>
 					<input type="hidden" name="_method" value="put" />
 					<input type="hidden" name="feed[is_deleted]" value="<%= true %>" />
 					<input type="submit" value="Hírbejegyzés törlése" />

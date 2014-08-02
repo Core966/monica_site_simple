@@ -5,4 +5,4 @@ gem 'activerecord'
 gem 'mysql2'
 gem 'warden'
 gem 'bcrypt-ruby'
-
+gem 'rack_csrf'

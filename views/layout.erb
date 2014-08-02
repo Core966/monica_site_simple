@@ -54,6 +54,7 @@
 			<form id="searchform" action="/search" method="post">
 			<div>
 			<input name="search[keyword]" type="text" />
+			<%= Rack::Csrf.csrf_tag(env) %>
 			<input id="searchsubmit" class="pure-button pure-button-primary" type="submit" value="Keresés">
 			</div>
 			</form>
