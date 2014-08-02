@@ -1,5 +1,5 @@
 body {
-    background: url("images/grass.jpg") repeat scroll 0 0 rgba(0, 0, 0, 0);
+    background: url("images/background.png") repeat scroll 0 0 #8EE35D;
     color: #333;
     font-family: 'Lucida Grande',Verdana,Arial,Sans-Serif;
     font-size: 62.5%;
@@ -23,7 +23,7 @@ ul { list-style-type: none; }
 }
 #header h1 {
     font-size: 22px;
-    padding-left: 40px;
+    padding-left: 80px;
     padding-top: 40px;
     text-align: left;
 }
@@ -50,7 +50,7 @@ ul { list-style-type: none; }
     text-decoration: none;
 }
 #navigation ul li a:hover {
-    background: url("images/nav_hover.jpg") repeat scroll center bottom rgba(0, 0, 0, 0);
+    background: url("images/nav_hover.png") repeat scroll center bottom rgba(0, 0, 0, 0);
     color: #fee202;
 }
 #content {
@@ -90,7 +90,7 @@ h1 {
 #headerimg .description {
     font-size: 1.4em;
     font-weight: bold;
-    padding-left: 40px;
+    padding-left: 80px;
     text-align: left;
 }
 
@@ -103,10 +103,11 @@ h2.pagetitle {
 #sidebar li {
     padding: 0 0 10px;
 }
+
 #sidebar li h2 {
     background-position: left top;
     background-repeat: no-repeat;
-    color: #06C;
+    color: #4A9121;
     font-family: 'Lucida Grande',Verdana,Sans-Serif;
     font-size: 12px;
 
@@ -115,13 +116,13 @@ h3 {
     font-size: 1.3em;
 }
 h1, h1 a, h1 a:hover, h1 a:visited, #headerimg .description {
-    color: #72B2F2;
-    text-shadow: 1px 1px 1px #5578B5;
+    color: #8EE35D;
+    text-shadow: 1px 1px 1px #69A845;
     text-decoration: none;
 }
 h2, h2 a, h2 a:visited, h3, h3 a, h3 a:visited {
-    color: #72B2F2;
-    text-shadow: 1px 1px 1px #5578B5;
+    color: #8EE35D;
+    text-shadow: 1px 1px 1px #69A845;
 }
 h2, h2 a, h2 a:hover, h2 a:visited, h3, h3 a, h3 a:hover, h3 a:visited, #sidebar h2, #wp-calendar caption, cite {
     text-decoration: none;
@@ -166,11 +167,11 @@ acronym, abbr, span.caps {
     letter-spacing: 0.07em;
 }
 a, h2 a:hover, h3 a:hover {
-    color: #06c;
+    color: #4A9121;
     text-decoration: none;
 }
 a:hover {
-    color: #147;
+    color: #64BF30;
     text-decoration: underline;
 }
 body {
