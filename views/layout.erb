@@ -73,20 +73,24 @@
 			<li>
 			<h2>Legutóbbi blog bejegyzések</h2>
 			<ul>
+				<% unless @sidebar_posts[0] == nil %>
 				<% @sidebar_posts.each do |sidebar| %>
 				  <li>
 				    <a href="/blog/<%= sidebar.id %>"><%= sidebar.title %></a>
 				  </li>
+				<% end %>
 				<% end %>
 			</ul>
 			</li>
 			<li>
 			<h2>Legutóbbi hírek</h2>
 			<ul>
+				<% unless @sidebar_feeds[0] == nil %>
 				<% @sidebar_feeds.each do |sidebar| %>
 				  <li>
 				    <a href="/feed/<%= sidebar.id %>"><%= sidebar.title %></a>
 				  </li>
+				<% end %>
 				<% end %>
 			</ul>
 			</li>
@@ -94,9 +98,10 @@
 		</div>
 	</div>
 	<div id="footer">
-		<p>
+		<br />
+		<b>
 		<%= "&mdash; &copy; #{Time.now.strftime('%Y')} #{@author} &mdash; Weboldala, az alkalmazás MIT licenc alatt készült. A Kód forrását meg lehet tekinteni az XY oldalon." %>
-		</p>
+		</b>
 	</div>
 </div>
 </body>

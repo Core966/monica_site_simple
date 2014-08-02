@@ -6,8 +6,10 @@
     <input id="post_title" name="link[title]" type="text" value="<%= link.title %>" />
     <div class="entrytext">
 	<select name="link[href]">
+<% unless @selection[0] == nil %>
 <% @selection.each do |select| %>
 	  <option value="/blog/<%= "#{select.id}" %>"><%= select.title %></option>
+<% end %>
 <% end %>
 	</select>
 	<input type="submit" class="pure-button pure-button-primary" value="Új link létrehozása" />

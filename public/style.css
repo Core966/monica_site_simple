@@ -14,6 +14,8 @@ body {
 
 ul { list-style-type: none; }
 
+p { white-space: pre-wrap; }
+
 #header {
     background: url("images/header.png") no-repeat scroll center bottom rgba(0, 0, 0, 0);
     height: 185px;
@@ -203,12 +205,10 @@ body {
     clear: both;
     height: 72px;
     margin: 0 auto;
-    padding: 0;
     width: 742px;
 }
-#footer p {
+#footer b {
     color: #ffffff;
-    margin: 0;
     padding: 10px 0;
     text-align: center;
 }

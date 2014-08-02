@@ -1,4 +1,4 @@
-
+<% unless @posts[0] == nil %>
 <% @posts.each do |post| %>
 
     <h2><a href="/blog/<%= post.id %>"><%= post.title %></a></h2>
@@ -7,6 +7,8 @@
     </div>
 
 <% end %>
+<% end %>
+<% if env['warden'].authenticated? %>
 <br/ >
 <a class="pure-button" href="/blog/new">Új blog bejegyzés</a>
-
+<% end %>
