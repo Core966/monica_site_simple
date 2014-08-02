@@ -91,7 +91,7 @@ password: APP_CONFIG['db_password']
 	end
 	
 	post '/search' do
-	  @posts = Post.find_by_sql("SELECT id, title, body FROM posts WHERE (title LIKE '%" + params[:search][:keyword] + "%' OR body LIKE '%" + params[:search][:keyword] + "%') AND is_deleted = 0")
+	  @posts = Post.find_by_sql(["SELECT id, title, body FROM posts WHERE (title LIKE ? OR body LIKE ?) AND is_deleted = 0", "%" + params[:search][:keyword] + "%", "%" + params[:search][:keyword] + "%"])
           @sidebar_posts = Post.find_by_sql("SELECT id, title FROM posts WHERE is_deleted = 0 ORDER BY id DESC LIMIT 0, 3")
           @sidebar_links = Link.find_by_sql("SELECT * FROM links WHERE href <> ''")
 	  @sidebar_feeds = Feed.find_by_sql("SELECT * FROM feeds WHERE is_deleted = 0 ORDER BY id DESC LIMIT 0, 3")
