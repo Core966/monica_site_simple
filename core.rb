@@ -35,7 +35,7 @@ password: APP_CONFIG['db_password']
 	configure do
 	  set :views, "#{File.dirname(__FILE__)}/views"
 	  enable :sessions
-	  use Rack::Session::Cookie, secret: "nothingissecretontheinternet"
+	  use Rack::Session::Cookie, :expire_after => 60*60*3, secret: "nothingissecretontheinternet"
 	  use Rack::MethodOverride
 	end
 	
