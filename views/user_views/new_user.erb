@@ -1,14 +1,14 @@
 <form action="/users" class="pure-form pure-form-stacked" method="post">
   <%= Rack::Csrf.csrf_tag(env) %>
-  <label for="username"> Username:
-  <input id="username" type="text" name="user[username]" />
+  <label for="username"> Felhasználónév:
+  <input id="username" type="text" placeholder="Felhasználónév" required="required" pattern="[\u00c0-\u00ffA-Za-z0-9]{6,}" data-errormessage-pattern-mismatch="A felhasználónévnek minimum 6 karakterből kell állnia, lehet benne betű (ékezettel is) és szám." name="user[username]" />
   </label><br />
   <label for="email"> Email:
-  <input id="email" type="text" name="user[email]" />
+  <input id="email" type="text" placeholder="Email cím" required="required" pattern="([\w]{1,})@([\w]{1,})\.([\w]{2,})(.[\w]{2,})?"  data-errormessage-pattern-mismatch="Nem adtál meg érvényes email címet!" name="user[email]" />
   </label><br />
-  <label for="password"> Password:
-  <input id="password" type="password" name="user[password]" />
+  <label for="password"> Jelszó:
+  <input id="password" type="password" placeholder="Jelszó" required="required" pattern="[\u00c0-\u00ffA-Za-z0-9]{8,}" data-errormessage-pattern-mismatch="A jelszónak minimum 8 karakterből kell állnia, lehet benne betű (ékezettel is) és szám." name="user[password]" />
   </label>
   <input type="hidden" name="user[is_deleted]" value="<%= false %>" />
-  <input type="submit" class="pure-button pure-button-primary" value="Create user">
+  <input type="submit" class="pure-button pure-button-primary" value="Felhasználó létrehozása">
 </form>

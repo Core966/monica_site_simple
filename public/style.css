@@ -64,11 +64,7 @@ p { white-space: pre-wrap; }
 .narrowcolumn .postmetadata {
     text-align: center;
 }
-.alt {
-    background-color: #f8f8f8;
-    border-bottom: 1px solid #ddd;
-    border-top: 1px solid #ddd;
-}
+
 #footer {
     background: url("images/footer.png") no-repeat scroll center bottom rgba(0, 0, 0, 0);
     border: medium none;
@@ -76,11 +72,7 @@ p { white-space: pre-wrap; }
 #footer a {
     color: #ffffff;
 }
-small {
-    font-family: Arial,Helvetica,Sans-Serif;
-    font-size: 0.9em;
-    line-height: 1.5em;
-}
+
 h1, h2, h3 {
     font-family: 'Trebuchet MS','Lucida Grande',Verdana,Arial,Sans-Serif;
     font-weight: bold;
@@ -129,31 +121,7 @@ h2, h2 a, h2 a:visited, h3, h3 a, h3 a:visited {
 h2, h2 a, h2 a:hover, h2 a:visited, h3, h3 a, h3 a:hover, h3 a:visited, #sidebar h2, #wp-calendar caption, cite {
     text-decoration: none;
 }
-.entry p a:visited {
-    color: #b85b5a;
-}
-.commentlist li, #commentform input, #commentform textarea {
-    font: 0.9em 'Lucida Grande',Verdana,Arial,Sans-Serif;
-}
-.commentlist li {
-    font-weight: bold;
-}
-.commentlist cite, .commentlist cite a {
-    font-size: 1.1em;
-    font-style: normal;
-    font-weight: bold;
-}
-.commentlist p {
-    font-weight: normal;
-    line-height: 1.5em;
-    text-transform: none;
-}
-#commentform p {
-    font-family: 'Lucida Grande',Verdana,Arial,Sans-Serif;
-}
-.commentmetadata {
-    font-weight: normal;
-}
+
 #sidebar {
     font: 1.2em 'Lucida Grande',Verdana,Arial,Sans-Serif;
     float:left;
@@ -161,13 +129,7 @@ h2, h2 a, h2 a:hover, h2 a:visited, h3, h3 a, h3 a:hover, h3 a:visited, #sidebar
 small, #sidebar ul ul li, #sidebar ul ol li, .nocomments, .postmetadata, blockquote, strike {
     color: #777;
 }
-code {
-    font: 1.1em 'Courier New',Courier,Fixed;
-}
-acronym, abbr, span.caps {
-    font-size: 0.9em;
-    letter-spacing: 0.07em;
-}
+
 a, h2 a:hover, h3 a:hover {
     color: #4A9121;
     text-decoration: none;
@@ -235,42 +197,9 @@ h3.comments {
     margin: 40px auto 20px;
     padding: 0;
 }
-p img {
-    max-width: 100%;
-    padding: 0;
-}
-img.centered {
-    display: block;
-    margin-left: auto;
-    margin-right: auto;
-}
-img.alignright {
-    display: inline;
-    margin: 0 0 2px 7px;
-    padding: 4px;
-}
-img.alignleft {
-    display: inline;
-    margin: 0 7px 2px 0;
-    padding: 4px;
-}
-.alignright {
-    float: right;
-}
-.alignleft {
-    float: left;
-}
 
 .entry ul li:before, #sidebar ul ul li:before {
     content: "- ";
-}
-.entry ol {
-    margin: 0;
-    padding: 0 0 0 35px;
-}
-.entry ol li {
-    margin: 0;
-    padding: 0;
 }
 .postmetadata ul, .postmetadata li {
     display: inline;
@@ -314,53 +243,11 @@ img.alignleft {
 #sidebar #searchsubmit {
     padding: 1px;
 }
-.entry form {
-    text-align: center;
-}
+
 select {
     width: 130px;
 }
-#commentform input {
-    margin: 5px 5px 1px 0;
-    padding: 2px;
-    width: 170px;
-}
-#commentform textarea {
-    padding: 2px;
-    width: 100%;
-}
-#commentform #submit {
-    float: right;
-    margin: 0;
-}
-.alt {
-    margin: 0;
-    padding: 10px;
-}
-.commentlist {
-    padding: 0;
-    text-align: justify;
-}
-.commentlist li {
-    list-style: none outside none;
-    margin: 15px 0 3px;
-    padding: 5px 10px 3px;
-}
-.commentlist p {
-    margin: 10px 5px 10px 0;
-}
-#commentform p {
-    margin: 5px 0;
-}
-.nocomments {
-    margin: 0;
-    padding: 0;
-    text-align: center;
-}
-.commentmetadata {
-    display: block;
-    margin: 0;
-}
+
 #sidebar {
     padding: 20px 0 10px;
     width: 190px;
@@ -368,24 +255,7 @@ select {
 #sidebar form {
     margin: 0;
 }
-acronym, abbr, span.caps {
-    cursor: help;
-}
-acronym, abbr {
-    border-bottom: 1px dashed #999;
-}
-blockquote {
-    border-left: 5px solid #ddd;
-    margin: 15px 30px 0 10px;
-    padding-left: 20px;
-}
-blockquote cite {
-    display: block;
-    margin: 5px 0 0;
-}
-.center {
-    text-align: center;
-}
+
 hr {
     display: none;
 }

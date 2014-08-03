@@ -38,7 +38,7 @@
 	if @post.save #In case of failure to save into the database...
 	  redirect "/blog/#{@post.id}"
 	else
-	  erb "post_views/new_post".to_sym #...the application redirects to the same page.
+	  redirect "/blog/new" #...the application redirects to the same page.
 	end
     else
       redirect '/login'

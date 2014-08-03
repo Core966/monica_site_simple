@@ -38,7 +38,7 @@
 	if @feed.save #In case of failure to save into the database...
 	  redirect "/feed/#{@feed.id}"
 	else
-	  erb "feed_views/new_feed".to_sym #...the application redirects to the same page.
+	  redirect "/feed/new" #...the application redirects to the same page.
 	end
     else
       redirect '/login'

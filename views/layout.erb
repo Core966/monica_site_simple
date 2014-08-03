@@ -4,7 +4,10 @@
 	<link rel="stylesheet" type="text/CSS" href="/style.css" />
 	<link rel="stylesheet" type="text/CSS" href="/forms-nr-min.css" />
 	<link rel="stylesheet" type="text/CSS" href="/buttons-min.css" />
-	
+	<script src="/js/jquery-1.10.2.min.js"></script>
+	<script src="/js/polyfiller.js"></script> 
+	<script src="/js/javascript.js"></script>
+	<script src="/js/civem.js"></script>	
 </head>
 <body>
 <div id="page" class="singlecol">
@@ -53,7 +56,7 @@
 			<li>
 			<form id="searchform" action="/search" method="post">
 			<div>
-			<input name="search[keyword]" type="text" />
+			<input name="search[keyword]" placeholder="Keresendő szöveg" type="text" />
 			<%= Rack::Csrf.csrf_tag(env) %>
 			<input id="searchsubmit" class="pure-button pure-button-primary" type="submit" value="Keresés">
 			</div>

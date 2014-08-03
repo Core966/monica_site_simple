@@ -17,7 +17,7 @@
 	    <form id="new_password" action="/users/<%= "#{user.id}" %>" method="post">
 		<%= Rack::Csrf.csrf_tag(env) %>
 		<input type="hidden" name="_method" value="put" />
-		<input id="password" type="password" name="user[password]" />
+		<input id="password" type="password" placeholder="Új jelszó" required="required" pattern="[\u00c0-\u00ffA-Za-z0-9]{8,}" data-errormessage-pattern-mismatch="A jelszónak minimum 8 karakterből kell állnia, lehet benne betű (ékezettel is) és szám." name="user[password]" />
 		<input type="submit" value="Jelszó módosítás" />
 	    </form>
 	    </td>

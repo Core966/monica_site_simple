@@ -3,7 +3,7 @@
 <form action="/link/<%= "#{link.id}" %>" class="pure-form pure-form-stacked" method="post">
 	<%= Rack::Csrf.csrf_tag(env) %>
 	<input type="hidden" name="_method" value="put" />
-    <input id="post_title" name="link[title]" type="text" value="<%= link.title %>" />
+    <input id="post_title" name="link[title]" type="text" placeholder="Hivatkozás címe" required="required" pattern="[\s\u00c0-\u00ffA-Za-z0-9 \.,!?]{1,}" data-errormessage-pattern-mismatch="A címben csak betű, szám, pont, vessző, felkiáltójel és kérdőjel lehet, valamint space karakter." value="<%= link.title %>" />
     <div class="entrytext">
 	<select name="link[href]">
 <% unless @selection[0] == nil %>
