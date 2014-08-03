@@ -8,6 +8,7 @@ class CreateUsers < ActiveRecord::Migration
       t.boolean :is_deleted
       t.timestamps
     end
+    User.create(username: "adminer", email: "example@example.com", password: "Admin12345", is_deleted: false)
   end
   def down
     drop_table :users
