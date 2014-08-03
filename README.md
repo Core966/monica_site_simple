@@ -1,5 +1,7 @@
 ###THIS README IS NOT DONE YET!###
 
+#The site is getting into finalized state, additional features may be addedd butthis documentation will be soon updated, the code will be also commented.#
+
 How to use:
 
 Install dependencies (bundle)
