@@ -171,9 +171,13 @@ body {
 }
 #footer b {
     color: #ffffff;
-    padding: 10px 0;
     text-align: center;
 }
+
+#footer a:hover {
+    color: #40662B;
+}
+
 h1 {
     margin: 0;
     padding-top: 70px;

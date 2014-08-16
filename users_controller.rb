@@ -3,8 +3,8 @@
       if env['warden'].authenticate
         @title = @title + " | Admin Panel"
         @sidebar_posts = Post.find_by_sql("SELECT id, title FROM posts WHERE is_deleted = 0 ORDER BY id DESC LIMIT 0, 3")
-	@sidebar_links = Link.find_by_sql("SELECT * FROM links WHERE href <> ''")
-	@sidebar_feeds = Feed.find_by_sql("SELECT * FROM feeds WHERE is_deleted = 0 ORDER BY id DESC LIMIT 0, 3")
+	@sidebar_links = Link.find_by_sql("SELECT title, href FROM links WHERE href <> ''")
+	@sidebar_feeds = Feed.find_by_sql("SELECT id, title FROM feeds WHERE is_deleted = 0 ORDER BY id DESC LIMIT 0, 3")
         @users = User.find_by_sql("SELECT id, username, CONCAT('...', SUBSTRING(email,7, 4), '...') AS partial_email FROM users WHERE is_deleted = 0")
         erb "user_views/admin".to_sym
       else
@@ -16,8 +16,8 @@
       if env['warden'].authenticate
 	@title = @title + " | New User"
         @sidebar_posts = Post.find_by_sql("SELECT id, title FROM posts WHERE is_deleted = 0 ORDER BY id DESC LIMIT 0, 3")
-	@sidebar_links = Link.find_by_sql("SELECT * FROM links WHERE href <> ''")
-	@sidebar_feeds = Feed.find_by_sql("SELECT * FROM feeds WHERE is_deleted = 0 ORDER BY id DESC LIMIT 0, 3")
+	@sidebar_links = Link.find_by_sql("SELECT title, href FROM links WHERE href <> ''")
+	@sidebar_feeds = Feed.find_by_sql("SELECT id, title FROM feeds WHERE is_deleted = 0 ORDER BY id DESC LIMIT 0, 3")
 	@user = User.new
 	erb "user_views/new_user".to_sym
       else

@@ -51,23 +51,23 @@ password: APP_CONFIG['db_password']
 	# root page
 	get '/' do
 	  @posts = Post.find_by_sql("SELECT id, title, CONCAT(SUBSTRING(body,1, 250), '...') AS partial_body FROM posts WHERE is_deleted = 0 ORDER BY id DESC LIMIT 0, 5") #We are only displaying the first 250 characters of a given post.
-	  @sidebar_posts = Post.find_by_sql("SELECT * FROM posts WHERE is_deleted = 0 ORDER BY id DESC LIMIT 0, 3")
-	  @sidebar_links = Link.find_by_sql("SELECT * FROM links WHERE href <> ''")
-	  @sidebar_feeds = Feed.find_by_sql("SELECT * FROM feeds WHERE is_deleted = 0 ORDER BY id DESC LIMIT 0, 3")
+	  @sidebar_posts = Post.find_by_sql("SELECT id, title FROM posts WHERE is_deleted = 0 ORDER BY id DESC LIMIT 0, 3")
+	  @sidebar_links = Link.find_by_sql("SELECT title, href FROM links WHERE href <> ''")
+	  @sidebar_feeds = Feed.find_by_sql("SELECT id, title FROM feeds WHERE is_deleted = 0 ORDER BY id DESC LIMIT 0, 3")
 	  erb :home
 	end
 
 	get '/about/?' do
 	  @sidebar_posts = Post.find_by_sql("SELECT id, title FROM posts WHERE is_deleted = 0 ORDER BY id DESC LIMIT 0, 3")
-	  @sidebar_links = Link.find_by_sql("SELECT * FROM links WHERE href <> ''")
-	  @sidebar_feeds = Feed.find_by_sql("SELECT * FROM feeds WHERE is_deleted = 0 ORDER BY id DESC LIMIT 0, 3")
+	  @sidebar_links = Link.find_by_sql("SELECT title, href FROM links WHERE href <> ''")
+	  @sidebar_feeds = Feed.find_by_sql("SELECT id, title FROM feeds WHERE is_deleted = 0 ORDER BY id DESC LIMIT 0, 3")
 	  erb :about
 	end
 	
 	get '/login/?' do
 	  @sidebar_posts = Post.find_by_sql("SELECT id, title FROM posts WHERE is_deleted = 0 ORDER BY id DESC LIMIT 0, 3")
-	  @sidebar_links = Link.find_by_sql("SELECT * FROM links WHERE href <> ''")
-	  @sidebar_feeds = Feed.find_by_sql("SELECT * FROM feeds WHERE is_deleted = 0 ORDER BY id DESC LIMIT 0, 3")
+	  @sidebar_links = Link.find_by_sql("SELECT title, href FROM links WHERE href <> ''")
+	  @sidebar_feeds = Feed.find_by_sql("SELECT id, title FROM feeds WHERE is_deleted = 0 ORDER BY id DESC LIMIT 0, 3")
 	  erb :login
 	end
 	
@@ -87,8 +87,8 @@ password: APP_CONFIG['db_password']
 
 	get '/misc' do
           @sidebar_posts = Post.find_by_sql("SELECT id, title FROM posts WHERE is_deleted = 0 ORDER BY id DESC LIMIT 0, 3")
-          @sidebar_links = Link.find_by_sql("SELECT * FROM links WHERE href <> ''")
-	  @sidebar_feeds = Feed.find_by_sql("SELECT * FROM feeds WHERE is_deleted = 0 ORDER BY id DESC LIMIT 0, 3")
+          @sidebar_links = Link.find_by_sql("SELECT title, href FROM links WHERE href <> ''")
+	  @sidebar_feeds = Feed.find_by_sql("SELECT id, title FROM feeds WHERE is_deleted = 0 ORDER BY id DESC LIMIT 0, 3")
 	  erb :misc
 	end
 	
@@ -96,8 +96,8 @@ password: APP_CONFIG['db_password']
 	if params[:search][:keyword] =~ /\A[\p{L}0-9]{1,}\z/
 	  @posts = Post.find_by_sql(["SELECT id, title, body FROM posts WHERE (title LIKE ? OR body LIKE ?) AND is_deleted = 0", "%" + params[:search][:keyword] + "%", "%" + params[:search][:keyword] + "%"])
           @sidebar_posts = Post.find_by_sql("SELECT id, title FROM posts WHERE is_deleted = 0 ORDER BY id DESC LIMIT 0, 3")
-          @sidebar_links = Link.find_by_sql("SELECT * FROM links WHERE href <> ''")
-	  @sidebar_feeds = Feed.find_by_sql("SELECT * FROM feeds WHERE is_deleted = 0 ORDER BY id DESC LIMIT 0, 3")
+          @sidebar_links = Link.find_by_sql("SELECT title, href FROM links WHERE href <> ''")
+	  @sidebar_feeds = Feed.find_by_sql("SELECT id, title FROM feeds WHERE is_deleted = 0 ORDER BY id DESC LIMIT 0, 3")
 	  erb :search
 	else
 	  redirect "/"

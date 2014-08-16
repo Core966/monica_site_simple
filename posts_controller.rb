@@ -1,9 +1,9 @@
     
     get '/blog/?' do
-      @posts = Post.find_by_sql("SELECT * FROM posts WHERE is_deleted = 0 ORDER BY id DESC")
+      @posts = Post.find_by_sql("SELECT id, title FROM posts WHERE is_deleted = 0 ORDER BY id DESC")
       @sidebar_posts = Post.find_by_sql("SELECT id, title FROM posts WHERE is_deleted = 0 ORDER BY id DESC LIMIT 0, 3")
-      @sidebar_links = Link.find_by_sql("SELECT * FROM links WHERE href <> ''")
-      @sidebar_feeds = Feed.find_by_sql("SELECT * FROM feeds WHERE is_deleted = 0 ORDER BY id DESC LIMIT 0, 3")
+      @sidebar_links = Link.find_by_sql("SELECT title, href FROM links WHERE href <> ''")
+      @sidebar_feeds = Feed.find_by_sql("SELECT id, title FROM feeds WHERE is_deleted = 0 ORDER BY id DESC LIMIT 0, 3")
       erb "post_views/posts".to_sym
     end
     
@@ -12,8 +12,8 @@
 	@title = @title + " | New Post"
 	@post = Post.new
         @sidebar_posts = Post.find_by_sql("SELECT id, title FROM posts WHERE is_deleted = 0 ORDER BY id DESC LIMIT 0, 3")
-	@sidebar_links = Link.find_by_sql("SELECT * FROM links WHERE href <> ''")
-	@sidebar_feeds = Feed.find_by_sql("SELECT * FROM feeds WHERE is_deleted = 0 ORDER BY id DESC LIMIT 0, 3")
+	@sidebar_links = Link.find_by_sql("SELECT title, href FROM links WHERE href <> ''")
+	@sidebar_feeds = Feed.find_by_sql("SELECT id, title FROM feeds WHERE is_deleted = 0 ORDER BY id DESC LIMIT 0, 3")
 	erb "post_views/new_post".to_sym
     else
       redirect '/login'
@@ -21,10 +21,10 @@
     end
     
     get '/blog/:id' do
-      @post = Post.find_by_sql(["SELECT posts.* FROM posts WHERE posts.id = ?", params[:id]])
+      @post = Post.find_by_sql(["SELECT * FROM posts WHERE posts.id = ?", params[:id]])
       @sidebar_posts = Post.find_by_sql("SELECT id, title FROM posts WHERE is_deleted = 0 ORDER BY id DESC LIMIT 0, 3")
-      @sidebar_links = Link.find_by_sql("SELECT * FROM links WHERE href <> ''")
-      @sidebar_feeds = Feed.find_by_sql("SELECT * FROM feeds WHERE is_deleted = 0 ORDER BY id DESC LIMIT 0, 3")
+      @sidebar_links = Link.find_by_sql("SELECT title, href FROM links WHERE href <> ''")
+      @sidebar_feeds = Feed.find_by_sql("SELECT id, title FROM feeds WHERE is_deleted = 0 ORDER BY id DESC LIMIT 0, 3")
       if @post[0].is_deleted == true
         redirect "/blog"
       end
