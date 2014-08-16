@@ -10,7 +10,7 @@ class User < ActiveRecord::Base
 
   validates :is_deleted, format: { with: /\Atrue\z/ }, :allow_nil => true, :allow_blank => true, on: :update
 
-  validates :email, presence: true, uniqueness: { case_sensitive: false }, format: { with: /\A([\w]{1,})@([\w]{1,})\.([\w]{2,})(.[\w]{2,})?\z/ }, on: :create
+  validates :email, presence: true, uniqueness: { case_sensitive: false }, format: { with: /\A([\w\.\-_]{1,})@([\w]{1,})\.([\w]{2,})(.[\w]{2,})?\z/ }, on: :create
   
   def encrypt_password
     if password.present?

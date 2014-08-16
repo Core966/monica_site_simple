@@ -93,11 +93,15 @@ password: APP_CONFIG['db_password']
 	end
 	
 	post '/search' do
+	if params[:search][:keyword] =~ /\A[\p{L}0-9]{1,}\z/
 	  @posts = Post.find_by_sql(["SELECT id, title, body FROM posts WHERE (title LIKE ? OR body LIKE ?) AND is_deleted = 0", "%" + params[:search][:keyword] + "%", "%" + params[:search][:keyword] + "%"])
           @sidebar_posts = Post.find_by_sql("SELECT id, title FROM posts WHERE is_deleted = 0 ORDER BY id DESC LIMIT 0, 3")
           @sidebar_links = Link.find_by_sql("SELECT * FROM links WHERE href <> ''")
 	  @sidebar_feeds = Feed.find_by_sql("SELECT * FROM feeds WHERE is_deleted = 0 ORDER BY id DESC LIMIT 0, 3")
 	  erb :search
+	else
+	  redirect "/"
+	end
 	end
 
 #Enable the below in order to activate the CRUD operations of posts and their comments:
