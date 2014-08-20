@@ -15,6 +15,8 @@ Dir.glob("#{File.dirname(__FILE__)}/models/*.rb") { |model| require File.basenam
 
 # Necessary format:
 
+# db_encoding: <db encoding here>
+# db_adapter: <db adapter here>
 # db_name: <db name here>
 # db_host: <hostname here>
 # db_username: <db username here>
