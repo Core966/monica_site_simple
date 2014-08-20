@@ -12,7 +12,7 @@ Viszont mielőtt megértenénk a működését bontsuk le egyenként a komponens
 
 Az alkalmazás a core.rb fájlból indul, ez tisztán látható a config.ru fájlban is ami a core.rb fájlra támaszkodik amikor elindítja az alkalmazást éles környezetben:
 
->	require File.join(File.dirname(__FILE__), 'core.rb')
+>	require File.join(File.dirname(__FILE__), 'core.rb')<br/>
 >	run Sinatra::Application
 
 A core.rb fájl valójában az olvastótégelye az összes többi fájlnak a programban, a core.rb fájlban található például a posts vezérlő beillesztése:
@@ -21,12 +21,12 @@ A core.rb fájl valójában az olvastótégelye az összes többi fájlnak a pro
 
 Valamint a fő konfigurációk:
 
->	configure do
+>	configure do<br/>
 >		set :views, "#{File.dirname(__FILE__)}/views"
 >		enable :sessions
 >		use Rack::Session::Cookie, :expire_after => 60*60*3, secret: "nothingissecretontheinternet"
 >		use Rack::Csrf
->		use Rack::MethodOverride
+>		use Rack::MethodOverride<br/>
 >	end
 
 
