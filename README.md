@@ -12,22 +12,22 @@ Viszont mielőtt megértenénk a működését bontsuk le egyenként a komponens
 
 Az alkalmazás a core.rb fájlból indul, ez tisztán látható a config.ru fájlban is ami a core.rb fájlra támaszkodik amikor elindítja az alkalmazást éles környezetben:
 
->require File.join(File.dirname(__FILE__), 'core.rb')
->run Sinatra::Application
+>	require File.join(File.dirname(__FILE__), 'core.rb')
+>	run Sinatra::Application
 
 A core.rb fájl valójában az olvastótégelye az összes többi fájlnak a programban, a core.rb fájlban található például a posts vezérlő beillesztése:
 
->require File.join(File.dirname(__FILE__), './posts_controller.rb')
+>	require File.join(File.dirname(__FILE__), './posts_controller.rb')
 
 Valamint a fő konfigurációk:
 
->configure do
->	set :views, "#{File.dirname(__FILE__)}/views"
->	enable :sessions
->	use Rack::Session::Cookie, :expire_after => 60*60*3, secret: "nothingissecretontheinternet"
->	use Rack::Csrf
->	use Rack::MethodOverride
->end
+>	configure do
+>		set :views, "#{File.dirname(__FILE__)}/views"
+>		enable :sessions
+>		use Rack::Session::Cookie, :expire_after => 60*60*3, secret: "nothingissecretontheinternet"
+>		use Rack::Csrf
+>		use Rack::MethodOverride
+>	end
 
 
 
