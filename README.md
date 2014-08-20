@@ -106,13 +106,13 @@ Viszont ez önmagában nem lenne elég ahhoz hogy az adatbázissal kommunikáljo
 
 Az első sor a config mappában a database.yml fájlban keresi. Figyelembe kell venni hogy ez az adattárban nem található, ez azért van mert az a mappa a .gitignore fájlhoz hozzá van adva. A használat előtt ezt a fájlt manuálisan kell létrehozni ilyen formában:
 
-># Necessary format: <br/>
-># db_encoding: <db encoding here> <br/>
-># db_adapter: <db adapter here> <br/>
-># db_name: <db name here> <br/>
-># db_host: <hostname here> <br/>
-># db_username: <db username here> <br/>
-># db_password: <db user password here>
+>Necessary format: <br/>
+>db_encoding: <db encoding here> <br/>
+>db_adapter: <db adapter here> <br/>
+>db_name: <db name here> <br/>
+>db_host: <hostname here> <br/>
+>db_username: <db username here> <br/>
+>db_password: <db user password here>
 
 Tehát a megoldás így nézne ki:
 
