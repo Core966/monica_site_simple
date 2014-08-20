@@ -31,7 +31,7 @@ Valamint a fő konfigurációk:
 
 De nézzük át egyesével a program egyes komponenseit. Az elejétől a végéig nézzük hogy hogyan áll össze ez az alkalmazás a core.rb-ből kiindulva:
 
-#####Az első lépések#####
+#####Az első lépések (az adatbázis kapcsolata)#####
 
 Az alkalmazás, ha nem közvetlenül van futtatva a 'ruby core.rb' paranccsal, akkor a config.ru fájlból fog kiindulni. Ez éles környezetben van használva.
 
@@ -209,6 +209,114 @@ Az utóbbiról egy részlet:
 >migration_file = File.join(migrations_dir, "#{migration_number}_#{migration_name}.rb")
 
 (Megjegyzés: a 'migration_name' változót azt a programozó adja meg amikor a 'rake db:create_migration' parancsot használja.)
+
+Ezzel gyorsan át is tekintettük az adatbázis és az alkalmazás közti kapcsolatot. Viszont most jön az a szerver oldali kód ami lehetővé teszi hogy a felhasználók és az oldal látogatói számára is elérhetőek legyenek az adatok.
+
+#####Az alkalmazás fő elemeinek áttekintése#####
+
+Először a Sinatra alkalmazást beállítjuk, ezt a configure blokk-ban tehetjük ami így néz ki:
+
+>configure do <br/>
+>set :views, "#{File.dirname(__FILE__)}/views" <br/>
+>enable :sessions <br/>
+>use Rack::Session::Cookie, :expire_after => 60*60*3, secret: "nothingissecretontheinternet" <br/>
+>use Rack::Csrf <br/>
+>use Rack::MethodOverride <br/>
+>end
+
+Először beállítjuk hogy milyen mappában keresse a view fájlokat, ezek a fájlok amik az oldal látogatói és használói számára kerülnek megjelenítésre. (A Model View Controller avagy MVC megnevezés alapján ez a neve.)
+
+Következő lépés az az, hogy engedélyezzük a session-öket, tehát a munkameneteket engedéllyezük, ez ahhoz szükséges hogy az éppen bejelentkezett felhasználó adait az alkalmazás meg tudja jegyezni az oldalak közötti lépkedés közben.
+
+Utána beállítjuk a sütiket, ezek a fájlok a böngésző által kerülnek tárolásra és az éppen bejelentkezett felhasználó adatait tárolja. Beállításra kerül hogy mikor járjon le, valamint hogy milyen jelszóval titkosítjuk.
+
+Utána beállítjuk a csrf védelmet.
+
+A 'use Rack::MethodOverride' arra szolgál, hogy tudjunk használni put és delete kéréseket az alkalmazásnak, ne csak GET és POST kéréseket amik alapértelmezetten vannak támogatva.
+
+Ezután következik a 'warden_auth.rb' fájl hozzáadása az alkalmazáshoz. Ez a fájl áll közvetlen kapcsolatban a Warden gem-el. (A Warden az a Devise-nak volt az elődje, mivel a Devise Rails orientált ezért a Sinatra alkalmazásokhoz továbbra is a warden-t kell használni.)
+
+A Warden-nek is van egy saját konfigurációs blokkja amit így kell beállítani:
+
+>use Warden::Manager do |config| <br/>
+>config.serialize_into_session{|user| user.id } <br/>
+>config.serialize_from_session{|id| User.find_by_id(id) } <br/>
+>config.scope_defaults :default, <br/>
+>strategies: [:password] <br/>
+>config.failure_app = self <br/>
+>end
+
+Először megadjuk hogy hogyan tárolja a sütikben a felhasználó adatait, majd hogy hogyan olvassa ki az adatokat onnan.
+
+A strategies egy fontos érték amit később deklarálunk, az határozza meg hogy milyen logika alapján hitelesítse a felhasználókat.
+
+Valamint az utolsó sor pedig azt határozza meg hogy mit tegyen az alkalmazás ha hibára fut a bejelentkezés. Itt nem adunk meg speciális hiba kezelő mechanizmust, főként azért mert már bejelentkezéskor leellenőrzi az alkalmazás hogy a felhasználó be van-e jelentkezve, és ha nem, akkor egyszerűen visszadobja a főoldalra.
+
+Az első amit meghatározunk az az, hogy POST metódusban várja a felhasználó által megadott értékeket:
+
+>Warden::Manager.before_failure do |env,opts| <br/>
+>env['REQUEST_METHOD'] = 'POST' <br/>
+>end
+
+Utána jön a lényeg:
+
+>Warden::Strategies.add(:password) do <br/>
+>def valid? <br/>
+>params['user'] && params['user']['email'] && params['user']['password'] <br/>
+>end <br/>
+>def authenticate! <br/>
+>user = User.find_by(email: params['user']['email']) <br/>
+>if user.nil? <br/>
+>fail!("The username you entered does not exist.") <br/>
+>elsif user.authenticate(params['user']['email'], params['user']['password']) && user.is_deleted == false <br/>
+>success!(user) <br/>
+>else <br/>
+>fail!("Could not log in") <br/>
+>end <br/>
+>end <br/>
+>end
+
+Először azt vizsgáljuk meg hogy a felhasználó megadott-e email címet és jelszót. Ha ezek az adatok megérkeztek a szerverre akkor folytatja.
+
+Elővesszük először email cím alapján hogy melyik felhasználóról van pontosan szó.
+
+Viszont ha nem találjuk meg email cím alapján akkor eleve nem kell hitelesíteni a felhasználót és hibára fut a bejelentkezés.
+
+Viszont ha van akkor megnézzük hogy a jelszó egyezik-e. Ez active record szinten történik, ugyanis amikor felkerestük a felhasználót az email címe alapján, akkor a hozzá tartozó metódust is eltároltuk a user objektumban ami így néz ki:
+
+>def authenticate(email, password) <br/>
+>user = User.find_by(email: email) <br/>
+>if user && user.password_hash == BCrypt::Engine.hash_secret(password, user.password_salt) <br/>
+>user <br/>
+>else <br/>
+>nil <br/>
+>end <br/>
+>end
+
+És itt nem mást használunk mint a bcrypt metódusát amivel ellenőrizzük hogy az eltárolt titkosított érték, megegyezik-e a felhasználó által beírt jelszó titkosított értékével. Ha a kettő egyezik, akkor hitelesített a bejelentkezés.
+
+Mivel nem 'nil' értékkel tér vissza, ezért az alábbi kód igaz értékkel tér vissza:
+
+>user.authenticate(params['user']['email'], params['user']['password']) && user.is_deleted == false
+
+Viszont ehhez arra is szükség van hogy a felhasználó ne legyen törölt állapotban.
+
+Ezután beállítjuk azokat a változókat amik alapvetően minden oldalon beállításra kerülnek, pontosabban minden oldal lekérdezése során:
+
+>before do <br/>
+>@title = 'Tóth Mónika weboldala' <br/>
+>@author = 'Tóth Mónika' <br/>
+>end
+
+A többi adat a core.rb fájlban mind a vezérlőkre irányul, valamint hogy milyen módon hívják le az adatokat az adatbázisból.
+
+#####Az alkalmazás vezérlőinek áttekintése#####
+
+A vezérlő alapvetően az a réteg az MVC szerkezetben ami kapcsolatot teremt a modell és a megjelenítésre kerülő oldalak között. Rajtuk keresztül áramolnak az adatok az egyik pontból a másikba.
+
+A lenti kép magyarázza el a legjobban ennek a folyamatát:
+
+![The MVC pattern](http://upload.wikimedia.org/wikipedia/commons/a/a0/MVC-Process.svg)
 
 
 
