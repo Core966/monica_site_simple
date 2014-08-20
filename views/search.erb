@@ -1,10 +1,16 @@
+<% unless @posts[0] == nil %>
 <h2>A keresés eredményei:</h2>
-<% @posts.each do |post| %>
+	<% @posts.each do |post| %>
 
-    <h2><a href="/blog/<%= post.id %>"><%= post.title %></a></h2>
-    <div class="entrytext">
-    <p><%= post.body %></p>
-    </div>
+	    <h2><a href="/blog/<%= post.id %>"><%= post.title %></a></h2>
+	    <div class="entrytext">
+	    <p><%= post.body %></p>
+	    </div>
+
+	<% end %>
+<% else %>
+
+	<h3>Sajnos nincs találat.</h3>
 
 <% end %>
 <br/ >
