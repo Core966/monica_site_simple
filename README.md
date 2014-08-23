@@ -15,7 +15,7 @@ Az alkalmazás a core.rb fájlból indul, ez tisztán látható a config.ru fáj
 >	require File.join(File.dirname(__FILE__), 'core.rb')<br/>
 >	run Sinatra::Application
 
-A core.rb fájl valójában az olvastótégelye az összes többi fájlnak a programban, a core.rb fájlban található például a posts vezérlő beillesztése:
+A core.rb fájl valójában az olvasztótégelye az összes többi fájlnak a programban, a core.rb fájlban található például a posts vezérlő beillesztése:
 
 >	require File.join(File.dirname(__FILE__), './posts_controller.rb')
 
@@ -55,7 +55,7 @@ Ez az egyik legnépszerűbb ORM-je a ruby-nak. Avagy Object Relational Mapper. E
 
 >require 'yaml'
 
-Erre azért van szükségünk hogy könnyeb be tudjuk konfigurálni a szükséges paramétereket az adatbázisunk működéséhez.
+Erre azért van szükségünk hogy könnyebben tudjuk konfigurálni a szükséges paramétereket az adatbázisunk működéséhez.
 
 >require 'warden'
 
@@ -123,11 +123,11 @@ Tehát a megoldás így nézne ki:
 >db_username: test_user <br/>
 >db_password: test123
 
-Különösen kell figyelni a space-ekre, mert a yaml azokat is figyelembe veszi. Ha például két space van a dm_name: és a test között akkor már nem fog helyesen betöltődni a konfiguráció!
+Különösen kell figyelni a space-ekre, mert a yaml azokat is figyelembe veszi. Ha például két space van a 'db_name:' és a 'test' között akkor már nem fog helyesen betöltődni a konfiguráció!
 
 Így már elég adatunk van hogy elindítsuk az adattáblák létrehozását. Tehát létre kell hozni a 'test' adatbázist és a 'test_user' felhasználót, valamint hozzáférést kell az adatbázishoz biztosítani a 'test_user' felhasználónak a 'test' adatbázishoz.
 
-Szintén figyelembe kell venni, hogy az utf8 karakterkódolást adatbázis oldalról is biztosítani kell, valamint hogy az alkalmazás is ismerje a karakterkódolást a mysql2 és nem a mysql adaptert kell használni, továbbá ruby 2.0-át kell használni legalább. Ha ez a 4 (utf8 kódolást active record szinten, utf8 kódolás adatbázis szinten, mysql2 adapter használata valamint legalább ruby 2.0 használata) nem jön össze, akkor az alkalmazás nem fog működni magyar karakterekkel vagy bármilyen más karakterrel amit az utf8 támogat és az ASCII karaktertábla nem.
+Szintén figyelembe kell venni, hogy az utf8 karakterkódolást adatbázis oldalról is biztosítani kell, valamint hogy az alkalmazás is ismerje a karakterkódolást a mysql2 és nem a mysql adaptert kell használni, továbbá ruby 2.0-át kell használni legalább. Ha ez a 4 (utf8 kódolás active record szinten, utf8 kódolás adatbázis szinten, mysql2 adapter használata valamint legalább ruby 2.0 használata) nem jön össze, akkor az alkalmazás nem fog működni magyar karakterekkel vagy bármilyen más karakterrel amit az utf8 támogat és az ASCII karaktertábla nem.
 
 Ha az alapfeltételek teljesülnek, akkor elméletileg elindíthatjuk a rake db:migrate paranccsal az adattáblák létrehozását. De honnan tudja az alkalmazás hogy hogyan hozza létre az adattáblákat?
 
@@ -199,9 +199,9 @@ Viszont ezeket a rake parancsokat hogyan értelmezi az alkalmazásunk? Minden v�
 >require "./active-record/rake.rb" <br/>
 >require "./core.rb"
 
-Persze ez erős túlzás, amire mi vagyunk kíváncsik az az active-record mappában található rake.rb fájl.
+Persze ez erős túlzás, amire mi vagyunk kíváncsiak az az active-record mappában található rake.rb fájl.
 
-A kód, és minden kód ami az active-record mappában található az egy másik adattárból származik, ami szintén az MIT licenc alatt készült. Kompatibilitási problémák merültek fel mysql adatbázis használat során és ezért közvetlenül az alkalmazásba kellet integrálnom azokat a részeket amire szükségem volt. Alapvetően ez a fájl végzi a közvetlen kommunikációt az Active Record ORM-el. Jobban kivehető, hogy a tasks.rake fájlban lévő parancsokat lefordítja az ORM-nek. Amíg a tasks.rake például a 'rake -T' paranccsal röviden leírja a különféle parancsok működését, addig a rake.rb fájl az olyan komplex dolgokat végzi el, mint például hogy milyen formában legyen létrehozva egy új migrációs fájl, amikor az alkalmazás még tervezési fázisban van.
+A kód, és minden kód ami az active-record mappában található az egy másik adattárból származik, ami szintén az MIT licenc alatt készült. Kompatibilitási problémák merültek fel mysql adatbázis használat során és ezért közvetlenül az alkalmazásba kellet integrálnom azokat a részeket amikre szükségem volt. Alapvetően ez a fájl végzi a közvetlen kommunikációt az Active Record ORM-el. Jobban kivehető, hogy a tasks.rake fájlban lévő parancsokat lefordítja az ORM-nek. Amíg a tasks.rake például a 'rake -T' paranccsal röviden leírja a különféle parancsok működését, addig a rake.rb fájl az olyan komplex dolgokat végzi el, mint például hogy milyen formában legyen létrehozva egy új migrációs fájl, amikor az alkalmazás még tervezési fázisban van.
 
 Az utóbbiról egy részlet:
 
@@ -232,7 +232,7 @@ Utána beállítjuk a sütiket, ezek a fájlok a böngésző által kerülnek t�
 
 Utána beállítjuk a csrf védelmet.
 
-A 'use Rack::MethodOverride' arra szolgál, hogy tudjunk használni put és delete kéréseket az alkalmazásnak, ne csak GET és POST kéréseket amik alapértelmezetten vannak támogatva.
+A 'use Rack::MethodOverride' arra szolgál, hogy tudjunk használni put és delete metódusokat az alkalmazáson belül, ne csak GET és POST metódusokat amik alapértelmezetten vannak támogatva.
 
 Ezután következik a 'warden_auth.rb' fájl hozzáadása az alkalmazáshoz. Ez a fájl áll közvetlen kapcsolatban a Warden gem-el. (A Warden az a Devise-nak volt az elődje, mivel a Devise Rails orientált ezért a Sinatra alkalmazásokhoz továbbra is a warden-t kell használni.)
 
@@ -355,11 +355,11 @@ Azt is megtehetjük hogy a weboldal szerverén folyamatosan, mondjuk minden éjs
 
 Ezért azt is tehetjük hogy az összes felhasználóra úgy tekintünk mint egy potenciális hekkerre, és így még saját akaratukból, vagy akár véletlenül sem tudnak törölni semmit az oldalról. Véletlenül ki lett törölve egy bejegyzés? Semmi gond: Feljelentkezem a szerverre és átállítom manuálisan az is_delete boolean értéket hamisra. Így megspórolva magamnak egy hosszabb folyamatot.
 
-A frissítést sem szabad megengedni a felhasználóknak. Esetleg megadhatjuk a lehetőségét, hogy hozzáadjanak információt a meglévő bejegyzésekhez, de soha nem engedjük hogy frissítsék a meglévő adatot! Ugyanis ebben az esetben is, mondjuk le tudnának cserélni egy bejegyzést "lorem ipsum" szövegre, és ez adavesztést eredményezhet, amit szintén biztonsági mentés útján lehet csak helyrehozni.
+A frissítést sem szabad megengedni a felhasználóknak. Esetleg megadhatnánk a lehetőségét, hogy hozzáadjanak információt a meglévő bejegyzésekhez, de soha nem engednénk hogy frissítsék a meglévő adatot! Ugyanis ebben az esetben is, mondjuk le tudnának cserélni egy bejegyzést "lorem ipsum" szövegre, és ez adavesztést eredményezhet, amit szintén biztonsági mentés útján lehet csak helyrehozni.
 
 Így adatvesztés csak nagyon szélsőséges esetben lehetséges.
 
-Az alkalmazás az SQL befecskendezések ellen is védve van, ezt egyszerűen meg lehet oldani reguláris kifejezések használatával, valamint ahogyan a search mezőben lehet látni, azza hogy a következő képpen adunk meg felhasználó által megadott értékeket az SQL lekérdezésben:
+Az alkalmazás az SQL befecskendezések ellen is védve van, ezt egyszerűen meg lehet oldani reguláris kifejezések használatával, valamint ahogyan a search mezőben lehet látni, azzal hogy a következőképpen adunk meg felhasználó által megadott értékeket az SQL lekérdezésben:
 
 >@posts = Post.find_by_sql(["SELECT id, title, body FROM posts WHERE (title LIKE ? OR body LIKE ?) AND is_deleted = 0", "%" + params[:search][:keyword] + "%", "%" + params[:search][:keyword] + "%"])
 
@@ -445,21 +445,88 @@ Továbbá az oldalsó sávban több értéket megjelenítünk hogy a látogatók
 >`</ul>` <br/>
 >`</li>`
 
-###Introduction to main concept###
+Végül a láblécben megjelenítjük a szükséges információt, az aktuális évet kiírva:
 
+>`<%= "&mdash; &copy; #{Time.now.strftime('%Y')} #{@author} &mdash; Weboldala, az alkalmazás <a href='https://github.com/Core966/monica_site_simple/blob/master/LICENSE'>MIT licenc</a> alatt készült. A Kód forrását meg lehet tekinteni a <a href='https://github.com/Core966/monica_site_simple'>github oldalán</a>.<br/>A gyerekrajzokat készítette: <a href='http://www.freeimages.com/profile/cieleke'>Cieleke</a>" %>`
 
+Külön kitérve a kereső mezőre láthatjuk hogy egyrész beállítottunk egy helykitöltő szöveget, másfelől pedig regulár kifejezést és egy egyéni szöveget hibás bevitel esetében.
+
+>`<input name="search[keyword]" placeholder="Keresendő szöveg" pattern="[\u00c0-\u00ffA-Za-z0-9]{4,}" data-errormessage-pattern-mismatch="A keresendő szövegnek minimum 4 karakterből kell állnia, lehet benne betű (ékezettel is) és szám." type="text" />`
+
+Itt a regulár kifejezés a rendhagyó, láthatjuk hogy a p{L} használata helyett a '\u00c0-\u00ff' tartományt adjuk meg. Erre azért van szükség mert a speciális, nem ASCII karaktertáblába tartozó betűket, mint a magyar ékezetes betűket nem szabályozzák szokványos módon a Javascriptben található reguláris kifejezések, helyette viszont deklarálhatjuk hexadecimálisan milyen karaktereket nézzen a reguláris kifejezés. Minden speciális magyar és egyéb külföldi karakter beleesik a megadott tartományba. Részletes listát [ezen az oldalon](http://www.utf8-chartable.de/unicode-utf8-table.pl?utf8=dec) lehet találni.
+
+Lássuk viszont példaként hogy mi van az főoldal esetében megadva:
+
+><% @posts.each do |post| %> <br/>
+>`<div class="entrytext">` <br/>
+>`<h2><a href="/blog/<%= post.id %>"><%= post.title %></a></h2>` <br/>
+>`<p><%= post.partial_body %></p>` <br/>
+>`</div>` <br/>
+><% end %>
+
+Lehet látni fog végiglépkedünk az összes találaton, nem szükséges korlátozni a találatok számát mivel a lekérdezés maximum 5 találatot hoz fel, az 5 legfrissebb bejegyzést.
+
+Vannak olyan oldalak ahol hasonlóképpen elrejtünk egyes részeket ha nincs bejelentkezve a felhasználó:
+
+><% if env['warden'].authenticated? %> <br/>
+>`<br />` <br/>
+>`<br />` <br/>
+>`<a class="pure-button pure-button-primary" href="/links">Mutasd az összes linket</a>` <br/>
+><% end %> <br/>
+>`<br />` <br/>
+>`<br />` <br/>
+>`<a class="pure-button pure-button-primary" href="/feeds">Mutasd a legújabb híreket</a>`
+
+Egy másik szakaszban pedig azt láthatjuk, hogy hogyan "álcázzuk" törlés gombnak azt ami csak frissíti a bejegyzést:
+
+>`<form id="delete_user" action="/users/<%= "#{user.id}" %>" method="post">` <br/>
+><%= Rack::Csrf.csrf_tag(env) %> <br/>
+>`<input type="hidden" name="_method" value="put" />` <br/>
+>`<input type="hidden" name="user[is_deleted]" value="<%= true %>" />` <br/>
+>`<input type="submit" value="Felhasználó törlés" />` <br/>
+>`</form>`
+
+Utolsóként pedig nézzük meg hogy a linkeknek a megjelenítése hogy történik:
+
+><% @links.each do |link| %> <br/>
+>`<form action="/link/<%= "#{link.id}" %>" class="pure-form pure-form-stacked" method="post">` <br/>
+><%= Rack::Csrf.csrf_tag(env) %> <br/>
+>`<input type="hidden" name="_method" value="put" />` <br/>
+>`<input id="post_title" name="link[title]" type="text" placeholder="Hivatkozás címe" required="required" pattern="[\s\u00c0-\u00ffA-Za-z0-9 \.,!?]{1,}" data-errormessage-pattern-mismatch="A címben csak betű, szám, pont, vessző, felkiáltójel és kérdőjel lehet, valamint space karakter." value="<%= link.title %>" />` <br/>
+>`<div class="entrytext">` <br/>
+>`<select name="link[href]">` <br/>
+><% unless @selection[0] == nil %> <br/>
+><% @selection.each do |select| %> <br/>
+>`<option value="/blog/<%= "#{select.id}" %>"><%= select.title %></option>` <br/>
+><% end %> <br/>
+><% end %> <br/>
+>`</select>` <br/>
+>`<input type="submit" class="pure-button pure-button-primary" value="Új link létrehozása" />` <br/>
+>`</form>` <br/>
+>`</div>` <br/>
+><% end %>
+
+Lehet látni hogy dupla ciklust használunk, egyet az összes link megjelenítéséhez, egyet pedig a legördülő menük létrehozásához. Csak a meglévő blog bejegyzésekből választhatunk, nehogy valaki idegen linket állítson be. Viszont ha valaki manuálisan módosítaná még akkor is beleütközne a modelljében deklarált reguláris kifejezéssel ami csak az oldalhoz viszonyítva enged meg relatív linkeket létrehozni:
+
+>validates :href, format: { with: /(\A[\[a-z0-9\/]{1,}\z|\A\s\z)/ }
+
+Dióhélyban ennyi az oldal működésének áttekintése.
+
+Bármilyen kérdés lenne az oldal kapcsán, később lesz egy külön oldal a technikai kérdések megválaszolására. A türelmüket kérem amíg megépül.
+
+###After the detailed tutorial on how to create and manage this site will be made, the English readme will be also added.###
 
 How to use:
 
 Install dependencies (bundle)
 
-migrate (rake db:migrate)
+`migrate (rake db:migrate)`
 
-Run Application (ruby core.rb)
+Run Application (`ruby core.rb`)
 
 Also, make sure to check the following:
 
-rake -T
+`rake -T`
 
 use Ruby 2.0.0 or greater
 
