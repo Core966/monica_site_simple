@@ -107,12 +107,12 @@ Viszont ez önmagában nem lenne elég ahhoz hogy az adatbázissal kommunikáljo
 Az első sor a config mappában a database.yml fájlban keresi. Figyelembe kell venni hogy ez az adattárban nem található, ez azért van mert az a mappa a .gitignore fájlhoz hozzá van adva. A használat előtt ezt a fájlt manuálisan kell létrehozni ilyen formában:
 
 >Necessary format: <br/>
->db_encoding: <db encoding here> <br/>
->db_adapter: <db adapter here> <br/>
->db_name: <db name here> <br/>
->db_host: <hostname here> <br/>
->db_username: <db username here> <br/>
->db_password: <db user password here>
+>db_encoding: `<db encoding here>` <br/>
+>db_adapter: `<db adapter here>` <br/>
+>db_name: `<db name here>` <br/>
+>db_host: `<hostname here>` <br/>
+>db_username: `<db username here>` <br/>
+>db_password: `<db user password here>`
 
 Tehát a megoldás így nézne ki:
 
@@ -318,7 +318,132 @@ A lenti kép magyarázza el a legjobban ennek a folyamatát:
 
 ![The MVC pattern](http://upload.wikimedia.org/wikipedia/commons/a/a0/MVC-Process.svg)
 
+Nézzük meg az egyik vezérlőnek a működését, mondjuk azt ami a fő oldalt kezeli, onnan tudjuk ezt hogy az útvonal '/'-ra van állítva:
 
+>get '/' do <br/>
+>@posts = Post.find_by_sql("SELECT id, title, CONCAT(SUBSTRING(body,1, 250), '...') AS partial_body FROM posts WHERE is_deleted = 0 ORDER BY id DESC LIMIT 0, 5") #We are only displaying the first 250 characters of a given post. <br/>
+>@sidebar_posts = Post.find_by_sql("SELECT id, title FROM posts WHERE is_deleted = 0 ORDER BY id DESC LIMIT 0, 3") <br/>
+>@sidebar_links = Link.find_by_sql("SELECT title, href FROM links WHERE href <> ''") <br/>
+>@sidebar_feeds = Feed.find_by_sql("SELECT id, title FROM feeds WHERE is_deleted = 0 ORDER BY id DESC LIMIT 0, 3") <br/>
+>erb :home <br/>
+>end
+
+Először megkeressük az első öt legújabb blog bejegyzést, csökkenő sorrendbe jelenítjük meg az ID alapján ami által a legújabbak kerülnek felülre, ellenőrizzük azt is hogy ne legyen törölve, valamint a szövegnek csak az első 250 karakterét jelenítjük meg és a végéhez hozzáteszünk három pontot.
+
+Láthatjuk azt is hogy a linkeken kívül (amik előre bejegyzésre kerülnek az adatbázisba és amúgy sem törölhetőek), minden adattábla esetében leellenőrizzük, hogy törölt-e. Ha megfigyeljük például a blog bejegyzések vezérlőjét akkor lehet látni hogy a delete metódust soha nem használjuk, csak a put-ot:
+
+>put '/blog/:id' do <br/>
+>if env['warden'].authenticate <br/>
+>post = Post.find(params[:id]) <br/>
+>if post.update_attributes(params[:post]) <br/>
+>redirect "/blog" <br/>
+>else <br/>
+>redirect to("/blog/#{params[:id]}") <br/>
+>end <br/>
+>else <br/>
+>redirect '/login' <br/>
+>end <br/>
+>end
+
+Valamint a blog bejegyzéseket nem lehet szerkeszteni csak "törölni"? Ez miért van?
+
+A probléma az adatok törlésével és a roncsolásos frissítésekkel vagy angolul: "destructive updates"-el van.
+
+Tételezzük fel azt, hogy van egy látogató az oldalunkon aki nem csak egyszerűen egy hekker, hanem egy nagyon jó hekker. Egy olyan kis oldal esetében mint ez, magától értetődő hogy gond lesz belőle, de hogyan tudjuk csökkenteni azt hogy mekkora károkat tudjon okozni?
+
+Azt is megtehetjük hogy a weboldal szerverén folyamatosan, mondjuk minden éjszaka csinálunk egy biztonsági mentést, viszont akkor is kiesnek azok a bejegyzések amik nap közben készültek. Nem lehet azt megoldani hogy minden bejegyzés után legyen egy biztonsági mentésünk, ez nagy oldalak esetében lehetetlen.
+
+Ezért azt is tehetjük hogy az összes felhasználóra úgy tekintünk mint egy potenciális hekkerre, és így még saját akaratukból, vagy akár véletlenül sem tudnak törölni semmit az oldalról. Véletlenül ki lett törölve egy bejegyzés? Semmi gond: Feljelentkezem a szerverre és átállítom manuálisan az is_delete boolean értéket hamisra. Így megspórolva magamnak egy hosszabb folyamatot.
+
+A frissítést sem szabad megengedni a felhasználóknak. Esetleg megadhatjuk a lehetőségét, hogy hozzáadjanak információt a meglévő bejegyzésekhez, de soha nem engedjük hogy frissítsék a meglévő adatot! Ugyanis ebben az esetben is, mondjuk le tudnának cserélni egy bejegyzést "lorem ipsum" szövegre, és ez adavesztést eredményezhet, amit szintén biztonsági mentés útján lehet csak helyrehozni.
+
+Így adatvesztés csak nagyon szélsőséges esetben lehetséges.
+
+Az alkalmazás az SQL befecskendezések ellen is védve van, ezt egyszerűen meg lehet oldani reguláris kifejezések használatával, valamint ahogyan a search mezőben lehet látni, azza hogy a következő képpen adunk meg felhasználó által megadott értékeket az SQL lekérdezésben:
+
+>@posts = Post.find_by_sql(["SELECT id, title, body FROM posts WHERE (title LIKE ? OR body LIKE ?) AND is_deleted = 0", "%" + params[:search][:keyword] + "%", "%" + params[:search][:keyword] + "%"])
+
+A zárójelen belül kapcsos zárójeleket használunk, majd sorrendben behelyettesítjük a ?-ek helyére a felhasználó által megadott értékeket. Mivel a címben és tartalomban bárhol kereshetjük a keresendő értékeket, ezért az értékek elejére és végére is százalék jeleket teszünk.
+
+A reguláris kifejezés is kiszűri a speciális karaktereket, viszont ha később lenne rá igény hogy speciális karakterekre is rá tudjanak keresni az oldal látogatói, akkor elhagyható és a beérkező karakterek más úton lennének tisztítva úgy hogy ne lehessen saját parancsokat megadni az alkalmazáson keresztül.
+
+Lehet látni hogy a vezérlők csoportokba vannak rendezve. Ami kifejezetten az egyik adattábla vezérlője az egy külön .rb fájlban található. ezeket mind hozzáadjuk a core.rb fájlhoz az alján lévő utasításokkal:
+
+
+>require File.join(File.dirname(__FILE__), './posts_controller.rb') <br/>
+>require File.join(File.dirname(__FILE__), './users_controller.rb') <br/>
+>require File.join(File.dirname(__FILE__), './feeds_controller.rb') <br/>
+>require File.join(File.dirname(__FILE__), './links_controller.rb')
+
+Lehet látni hogy bizonyos vezérlők védve vannak a warden gem által. Ahogy láthatjuk a blog befegyzés létrehozása a bejelentkezett felhasználó privilégiuma:
+
+>post '/feed/?' do <br/>
+>if env['warden'].authenticate <br/>
+>@feed = Feed.new(params[:feed]) <br/>
+>if @feed.save #In case of failure to save into the database... <br/>
+>redirect "/feed/#{@feed.id}" <br/>
+>else <br/>
+>redirect "/feed/new" #...the application redirects to the same page. <br/>
+>end <br/>
+>else <br/>
+>redirect '/login' <br/>
+>end <br/>
+>end
+
+Mindig azt ellenőrizzük hogy az "env['warden'].authenticate" igaz értékkel tér-e vissza. Csak akkor igaz, hogyha be vagyunk jelentkezve.
+
+Máskülönben finoman visszairányít az alkalmazás a bejelentkező felülethez.
+
+A többi vezérlő hasonlóképpen működik, csak kisebb eltérések vannak az SQL lekérdezésekben.
+
+#####Az alkalmazás megjelenítése#####
+
+Az utolsó lépés, miután eltároltuk változókba a szükséges adatokat, hogy megjelenítsük őket.
+
+A legelső dolog ami számításba fog kerülni az oldal layout eleme lesz. Ez a template-je az összes oldalnak mivel ez fogja körbefogni az összes egyedi oldalt.
+
+A HTML kódon kívül máris láthatjuk hogy az első változót felhasználtuk:
+
+>`<title><%= @title %></title>`
+
+Mivel ez minden oldalon megjelenítésre kerül, ezért deklaráljuk a 'before' blokkban.
+
+Közvetlenül utána betöltjük az összes kliens oldali kódot, ide beletartoznak a CSS stílus elemek, részük a pure.css keretrendszerből vannak.
+
+Utána pedig a HTML5-ös bővítések, hogy már kliens oldalon érvényesítve legyenek a bevitt értékek.
+
+A menü részben már láthatjuk hogy a warden gemmel manipuláljuk hogy mi kerüljön megjelenítésre a menüből amikor nem vagyunk bejelentkezve és amikor be vagyunk jelentkezve:
+
+><% if env['warden'].authenticated? %> <br/>
+>`<li>` <br/>
+>`<a href="/users">felhasználók kezelése</a>` <br/>
+>`</li>` <br/>
+>`<li>` <br/>
+>`<a href="/logout">Kijelentkezés</a>` <br/>
+>`</li>` <br/>
+><% else %> <br/>
+>`<li>` <br/>
+>`<a href="/login">Bejelentkezés</a>` <br/>
+>`</li>` <br/>
+><% end %> <br/>
+>`</ul>`
+
+Nem sokkal később megadjuk hogy mely rész fog különbözni az oldalon:
+
+><%= yield %>
+
+Továbbá az oldalsó sávban több értéket megjelenítünk hogy a látogatók akár egy kattintással is meg tudják nézni a legújabb vagy legfontosabb bejegyzéseket, ebből egy példa:
+
+>`<li>` <br/>
+>`<h2>Linkek</h2>` <br/>
+>`<ul style="margin-bottom:15px;">` <br/>
+><% @sidebar_links.each do |link| %> <br/>
+>`<li>` <br/>
+>`<a href="<%= link.href %>"><%= link.title %></a>` <br/>
+>`</li>` <br/>
+><% end %> <br/>
+>`</ul>` <br/>
+>`</li>`
 
 ###Introduction to main concept###
 
