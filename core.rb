@@ -48,6 +48,7 @@ password: APP_CONFIG['db_password']
 	before do
 	  @title = 'Tóth Mónika weboldala'
 	  @author = 'Tóth Mónika'
+	  @description = 'Gyermek szpichológus és tanácsadó, csoportterápia szervezése, Budapesti rendelőben'
 	end
 
 	# root page
@@ -56,6 +57,7 @@ password: APP_CONFIG['db_password']
 	  @sidebar_posts = Post.find_by_sql("SELECT id, title FROM posts WHERE is_deleted = 0 ORDER BY id DESC LIMIT 0, 3")
 	  @sidebar_links = Link.find_by_sql("SELECT title, href FROM links WHERE href <> ''")
 	  @sidebar_feeds = Feed.find_by_sql("SELECT id, title FROM feeds WHERE is_deleted = 0 ORDER BY id DESC LIMIT 0, 3")
+	  @title = @title + " | Főoldal"
 	  erb :home
 	end
 
@@ -63,6 +65,7 @@ password: APP_CONFIG['db_password']
 	  @sidebar_posts = Post.find_by_sql("SELECT id, title FROM posts WHERE is_deleted = 0 ORDER BY id DESC LIMIT 0, 3")
 	  @sidebar_links = Link.find_by_sql("SELECT title, href FROM links WHERE href <> ''")
 	  @sidebar_feeds = Feed.find_by_sql("SELECT id, title FROM feeds WHERE is_deleted = 0 ORDER BY id DESC LIMIT 0, 3")
+	  @title = @title + " | Magamról"
 	  erb :about
 	end
 	
@@ -106,9 +109,7 @@ password: APP_CONFIG['db_password']
 	end
 	end
 
-#Enable the below in order to activate the CRUD operations of posts and their comments:
 require File.join(File.dirname(__FILE__), './posts_controller.rb')
-#Or you may delete the post_views folder and all its files within. You must also edit the menu.erb partial.
 
 require File.join(File.dirname(__FILE__), './users_controller.rb')
 

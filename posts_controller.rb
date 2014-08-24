@@ -9,7 +9,7 @@
     
     get '/blog/new' do
     if env['warden'].authenticate
-	@title = @title + " | New Post"
+	@title = @title + " | Új blog bejegyzés"
 	@post = Post.new
         @sidebar_posts = Post.find_by_sql("SELECT id, title FROM posts WHERE is_deleted = 0 ORDER BY id DESC LIMIT 0, 3")
 	@sidebar_links = Link.find_by_sql("SELECT title, href FROM links WHERE href <> ''")
