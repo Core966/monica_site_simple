@@ -1,7 +1,7 @@
 
 			<div class="entrytext">
 				<h2><%= @post[0].title %></h2>
-				<p><%= @post[0].body %></p>
+				<p><%= @post[0].body.bbcode_to_html({}, false) %></p>
 			<% if env['warden'].authenticated? %>
 				<form action="/blog/<%= "#{params[:id]}" %>" method="post">
 					<%= Rack::Csrf.csrf_tag(env) %>

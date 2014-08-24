@@ -154,11 +154,18 @@ body {
     width: 450px;
 }
 .post {
-    margin: 0 0 40px;
+    margin: 0px 90px 0px 0px;
     text-align: justify;
     float:left;
-    width:500px;
+    width:400px;
 }
+
+.entrytext {
+    text-align: justify;
+    float:left;
+    width:450px;
+}
+
 .post h2 {
 
     padding: 2px 0 10px 0;
@@ -272,9 +279,7 @@ a img {
     margin-top: 10px;
     text-align: center;
 }
-.entrytext {
-   padding:0 25px 0 0;
-}
+
 #new_password {
    width:140px;
 }
@@ -285,3 +290,4 @@ a img {
 .pure-button-primary {
    opacity:0.7;
 }
+

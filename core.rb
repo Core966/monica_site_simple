@@ -5,6 +5,7 @@ require 'yaml'
 require 'warden'
 require 'bcrypt'
 require 'rack/csrf'
+require 'bb-ruby'
 
 #Load all models in the model directory:
 

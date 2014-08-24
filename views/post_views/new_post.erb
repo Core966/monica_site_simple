@@ -13,5 +13,10 @@
   <input type="hidden" name="post[is_deleted]" value="<%= false %>" />
  
   <input type="submit" class="pure-button pure-button-primary" value="Blog bejegyzés létrehozása" />
+
+
+  <script>
+    CKEDITOR.replace( 'post_body' );
+  </script>
 </form>
 

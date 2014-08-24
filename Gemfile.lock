@@ -15,6 +15,7 @@ GEM
       thread_safe (~> 0.1)
       tzinfo (~> 1.1)
     arel (5.0.1.20140414130214)
+    bb-ruby (1.0.4)
     bcrypt (3.1.7)
     bcrypt-ruby (3.1.5)
       bcrypt (>= 3.1.3)
@@ -45,6 +46,7 @@ PLATFORMS
 
 DEPENDENCIES
   activerecord
+  bb-ruby
   bcrypt-ruby
   mysql2
   rack_csrf

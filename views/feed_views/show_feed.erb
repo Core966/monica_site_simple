@@ -1,7 +1,7 @@
 
 			<div class="entrytext">
 				<h2><%= @feed[0].title %></h2>
-				<p><%= @feed[0].content %></p>
+				<p><%= @feed[0].content.bbcode_to_html({}, false) %></p>
 			<% if env['warden'].authenticated? %>
 				<form action="/feed/<%= "#{params[:id]}" %>" method="post">
 					<%= Rack::Csrf.csrf_tag(env) %>
