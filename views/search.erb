@@ -4,7 +4,7 @@
 
 	    <h2><a href="/blog/<%= post.id %>"><%= post.title %></a></h2>
 	    <div class="entrytext">
-	    <p><%= post.body %></p>
+	    <p><%= post.body.bbcode_to_html({}, false) %></p>
 	    </div>
 
 	<% end %>
