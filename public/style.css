@@ -160,6 +160,8 @@ body {
     width:400px;
 }
 
+.post b { font-size:14px; vertical-align: 30px; }
+
 .entrytext {
     text-align: justify;
     float:left;
