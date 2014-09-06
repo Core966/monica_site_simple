@@ -1,10 +1,15 @@
-
+<% unless @posts[0] == nil %>
 <% @posts.each do |post| %>
 <div class="entrytext">
 
     <h2><a href="/blog/<%= post.id %>"><%= post.title %></a></h2>
     <p><%= post.partial_body.bbcode_to_html({}, false) %></p>
 
+</div>
+<% end %>
+<% else %>
+<div class="entrytext">
+<h2>Nincs több blog bejegyzés</h2>
 </div>
 <% end %>
 

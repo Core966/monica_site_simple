@@ -79,7 +79,7 @@ password: APP_CONFIG['db_password']
 	
 	post '/login' do
     	  if env['warden'].authenticate
-	    redirect '/blog'
+	    redirect '/blog/oldal1'
 	  else
 	    redirect '/'
 	  end

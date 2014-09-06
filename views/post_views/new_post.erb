@@ -1,13 +1,13 @@
 
 <h2>Új blog bejegyzés</h2>
-<form action="/blog" class="pure-form pure-form-stacked" method="post">
+<form action="/blog" id="blog-form" class="pure-form pure-form-stacked" method="post">
   <%= Rack::Csrf.csrf_tag(env) %>
   <label for="post_title">Cím:</label><br />
-  <input id="post_title" name="post[title]" placeholder="Blog bejegyzés címe" required="required" pattern="[\s\u00c0-\u00ffA-Za-z0-9 \.,!?]{1,}" data-errormessage-pattern-mismatch="A címben csak betű, szám, pont, vessző, felkiáltójel és kérdőjel lehet, valamint space karakter." type="text"/>
+  <input id="post_title" name="post[title]" placeholder="Blog bejegyzés címe" type="text"/>
   <br />
  
   <label for="post_body">Tartalom:</label><br />
-  <textarea id="post_body" name="post[body]" placeholder="Blog bejegyzés tartalma" required="required" pattern="[\s\u00c0-\u00ffA-Za-z0-9 \.,!?]{1,}" data-errormessage-pattern-mismatch="A tartalomban csak betű, szám, pont, vessző, felkiáltójel és kérdőjel lehet, valamint space karakter." rows="40" cols="55"></textarea>
+  <textarea id="post_body" name="post[body]" rows="40" cols="55"></textarea>
   <br />
   
   <input type="hidden" name="post[is_deleted]" value="<%= false %>" />
@@ -16,7 +16,10 @@
 
 
   <script>
-    CKEDITOR.replace( 'post_body' );
+    CKEDITOR.replace( 'post_body',
+        {
+		language: 'hu'
+	});
   </script>
 </form>
 

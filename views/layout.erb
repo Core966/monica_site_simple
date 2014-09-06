@@ -8,6 +8,8 @@
 	<script src="/ckeditor/ckeditor.js"></script>
 	<script src="/js/jquery-1.10.2.min.js"></script>
 	<script src="/js/polyfiller.js"></script> 
+	<script src="/js/jquery.validate.min.js"></script>
+	<script src="/js/additional-methods.min.js"></script>
 	<script src="/js/javascript.js"></script>
 	<script src="/js/civem.js"></script>	
 </head>
@@ -58,7 +60,7 @@
 			<li>
 			<form id="searchform" action="/search" method="post">
 			<div>
-			<input name="search[keyword]" placeholder="Keresendő szöveg" pattern="[\u00c0-\u00ffA-Za-z0-9]{4,}" data-errormessage-pattern-mismatch="A keresendő szövegnek minimum 4 karakterből kell állnia, lehet benne betű (ékezettel is) és szám." type="text" />
+			<input name="search[keyword]" placeholder="Keresendő szöveg" required="required" pattern="[\u00c0-\u00ffA-Za-z0-9]{4,}" data-errormessage-pattern-mismatch="A keresendő szövegnek minimum 4 karakterből kell állnia, lehet benne betű (ékezettel is) és szám." type="text" />
 			<%= Rack::Csrf.csrf_tag(env) %>
 			<input id="searchsubmit" class="pure-button pure-button-primary" type="submit" value="Keresés">
 			</div>

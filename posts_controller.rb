@@ -18,7 +18,7 @@
     point_b = point_b.to_s
     #------------PAGINATION LOGIC END------------#
       @posts = Post.find_by_sql("SELECT id, title FROM posts WHERE is_deleted = 0 ORDER BY id DESC LIMIT " + point_a + ", " + point_b)
-    if @posts[0] == nil
+    if @posts[0] == nil && params[:id] != '1'
     redirect '/blog/oldal1'
     end
       @sidebar_posts = Post.find_by_sql("SELECT id, title FROM posts WHERE is_deleted = 0 ORDER BY id DESC LIMIT 0, 3")
@@ -46,7 +46,7 @@
       @sidebar_links = Link.find_by_sql("SELECT title, href FROM links WHERE href <> ''")
       @sidebar_feeds = Feed.find_by_sql("SELECT id, title FROM feeds WHERE is_deleted = 0 ORDER BY id DESC LIMIT 0, 3")
       if @post[0].is_deleted == true
-        redirect "/blog"
+        redirect "/blog/oldal1"
       end
       @title = @title + " | " + @post[0].title
       erb "post_views/show_post".to_sym
@@ -69,7 +69,7 @@
     if env['warden'].authenticate
       post = Post.find(params[:id])
 	if post.update_attributes(params[:post])
-	  redirect "/blog"
+	  redirect "/blog/oldal1"
 	else
 	  redirect to("/blog/#{params[:id]}")
 	end

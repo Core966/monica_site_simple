@@ -5,8 +5,11 @@
 
 <% end %>
 <% end %>
-<a href="/blog/oldal<%= (params[:id].to_i)-1 %>"><img src="/images/Arrow-left.png"><b>Előző oldal</b></a>&nbsp;&nbsp;&nbsp;&nbsp;<a href="/blog/oldal<%= (params[:id].to_i)+1 %>"><b>Következő oldal</b><img src="/images/Arrow-right.png"></a>
+<br />
+<br />
+<div id="left-arrow"><a href="/blog/oldal<%= (params[:id].to_i)-1 %>"><img src="/images/Arrow-left.png"><b>Előző oldal</b></a></div><div id="right-arrow"><a href="/blog/oldal<%= (params[:id].to_i)+1 %>"><b>Következő oldal</b><img src="/images/Arrow-right.png"></a></div>
+
 <% if env['warden'].authenticated? %>
-<br/ >
+
 <a class="pure-button" href="/blog/new">Új blog bejegyzés</a>
 <% end %>
