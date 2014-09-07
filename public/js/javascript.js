@@ -5,17 +5,17 @@ $(document).ready(function () {
         rules: {
 	    'feed[title]': {
                 required: true,
-                pattern: "^[\s\u00c0-\u00ffA-Za-z0-9\.,!?]{1,}$"
+                pattern: "[\s\u00c0-\u00ffA-Za-z0-9\.,!?]{1,}"
             },
             'feed[content]': {
                 required: true,
-                pattern: "^[\s\u00c0-\u00ffA-Za-z0-9\.,!?]{1,}$"
+                pattern: "^[ A-Za-z0-9_?!.,\-\>\<\/[\\]\u00c0-\u00ff]{1,}$"
             }
 
         },
         messages: {
 	    'feed[title]' : '<p class="validation-custom-error">A címben csak betű, szám, pont, vessző, felkiáltójel és kérdőjel lehet, valamint space karakter.</p>',
-	    'feed[content]' : '<p class="validation-custom-error">A tartalomban csak betű, szám, pont, vessző, felkiáltójel és kérdőjel lehet, valamint space karakter.</p>'
+	    'feed[content]' : '<p class="validation-custom-error">A tartalomban csak betű, szám, pont, vessző, felkiáltójel, kérdőjel, kötőjel és zárójel lehet, valamint space karakter.</p><br/><p class="validation-custom-notification">Ha biztos benne hogy megfelelő adatot írt be, nyomja meg ismét a létrehozás gombot</p>'
         },
         errorPlacement: function(error, $elem) {
             if ($elem.is('textarea')) {
@@ -36,17 +36,17 @@ $(document).ready(function () {
         rules: {
 	    'post[title]': {
                 required: true,
-                pattern: "^[\s\u00c0-\u00ffA-Za-z0-9\.,!?]{1,}$"
+                pattern: "[\s\u00c0-\u00ffA-Za-z0-9\.,!?]{1,}"
             },
             'post[body]': {
                 required: true,
-                pattern: "^[\s\u00c0-\u00ffA-Za-z0-9\.,!?]{1,}$"
+                pattern: "^[ A-Za-z0-9_?!.,\-\>\<\/[\\]\u00c0-\u00ff]{1,}$"
             }
 
         },
         messages: {
 	    'post[title]' : '<p class="validation-custom-error">A címben csak betű, szám, pont, vessző, felkiáltójel és kérdőjel lehet, valamint space karakter.</p>',
-	    'post[body]' : '<p class="validation-custom-error">A tartalomban csak betű, szám, pont, vessző, felkiáltójel és kérdőjel lehet, valamint space karakter.</p>'
+	    'post[body]' : '<p class="validation-custom-error">A tartalomban csak betű, szám, pont, vessző, felkiáltójel, kérdőjel, kötőjel és zárójel lehet, valamint space karakter.</p><br/><p class="validation-custom-notification">Ha biztos benne hogy megfelelő adatot írt be, nyomja meg ismét a létrehozás gombot</p>'
         },
         errorPlacement: function(error, $elem) {
             if ($elem.is('textarea')) {

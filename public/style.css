@@ -306,6 +306,16 @@ a img {
    padding:5px;
 }
 
+.validation-custom-notification {
+   display:block;
+   width:300px;
+   height:auto;
+   background-color: #AFAFAF;
+   border: 1px solid #717171;
+   font-size:14px;
+   padding:5px;
+}
+
 #left-arrow {
    float:left;
 }

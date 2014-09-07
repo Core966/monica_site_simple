@@ -52,6 +52,14 @@ password: APP_CONFIG['db_password']
 	  @description = 'Gyermek szpichológus és tanácsadó, csoportterápia szervezése, Budapesti rendelőben'
 	end
 
+	def stripBB(bbstring)
+	  bbstring.gsub!(/\[(.*?)\]/) do|tag|
+	    tag.gsub(/.*/, ' ')
+	  end
+
+	  return bbstring
+	end
+
 	# root page
 	get '/' do
 	  @posts = Post.find_by_sql("SELECT id, title, CONCAT(SUBSTRING(body,1, 250), '...') AS partial_body FROM posts WHERE is_deleted = 0 ORDER BY id DESC LIMIT 0, 5") #We are only displaying the first 250 characters of a given post.
