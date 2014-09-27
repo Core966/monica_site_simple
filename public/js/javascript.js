@@ -9,7 +9,7 @@ $(document).ready(function () {
             },
             'feed[content]': {
                 required: true,
-                pattern: "^[ A-Za-z0-9_?!.,\-\>\<\/[\\]\u00c0-\u00ff]{1,}$"
+                pattern: "^[ A-Za-z0-9_?!.,\-()\u00c0-\u00ff]{1,}$"
             }
 
         },
@@ -40,7 +40,7 @@ $(document).ready(function () {
             },
             'post[body]': {
                 required: true,
-                pattern: "^[ A-Za-z0-9_?!.,\-\>\<\/[\\]\u00c0-\u00ff]{1,}$"
+                pattern: "^[ A-Za-z0-9_?!.,\-()\u00c0-\u00ff]{1,}$"
             }
 
         },
